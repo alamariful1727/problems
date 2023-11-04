@@ -1,17 +1,15 @@
 "use strict";
 const canSum = (arr, targetSum) => {
-    if (targetSum === 0) {
-        return true;
-    }
-    if (targetSum < 0) {
-        return false;
-    }
+    const numSet = new Set();
     for (let num of arr) {
-        const remainder = targetSum - num;
-        if (canSum(arr, remainder) === true) {
+        const complement = targetSum - num;
+        if (numSet.has(complement)) {
             return true;
         }
+        numSet.add(num);
+        console.log(num);
     }
     return false;
 };
-console.log(canSum([1, 2, 3, 4, 5, 6, 7], 6)); // Output: true
+console.log(canSum([1, 2, 3, 4, 5, 6], 6));
+// console.log(canSum([1, 2, 3, 4, 5, 6], 10));
