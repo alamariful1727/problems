@@ -16,3 +16,4 @@ function addTwoPromises(promise1, promise2) {
 }
 ;
 addTwoPromises(Promise.resolve(2), Promise.resolve(2)).then(console.log); // 4
+Promise.allSettled([Promise.resolve(2), Promise.reject(2)]).then(results => results.forEach(result => console.log(result)));

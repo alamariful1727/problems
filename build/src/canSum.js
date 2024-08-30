@@ -3,13 +3,13 @@ const canSum = (arr, targetSum) => {
     const numSet = new Set();
     for (let num of arr) {
         const complement = targetSum - num;
+        console.log(num);
         if (numSet.has(complement)) {
-            return true;
+            return `${num} + ${complement}`;
         }
         numSet.add(num);
-        console.log(num);
     }
-    return false;
+    return '';
 };
-console.log(canSum([1, 2, 3, 4, 5, 6], 6));
+console.log(canSum([1, 2, 3, 4, 5, 6], 8));
 // console.log(canSum([1, 2, 3, 4, 5, 6], 10));
