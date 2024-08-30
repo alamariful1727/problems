@@ -87,10 +87,22 @@ const solution2 = (input) => {
     let output = {}; // Add type
     input.forEach((_a) => {
         var { type, id } = _a, rest = __rest(_a, ["type", "id"]);
-        output[type] = Object.assign(Object.assign({}, output[type]), { [id]: rest });
+        if (!output[type]) {
+            output[type] = {};
+        }
+        output[type][id] = rest;
     });
     return output;
 };
+const solution3 = (input) => input.reduce((acc, _a) => {
+    var { type, id } = _a, rest = __rest(_a, ["type", "id"]);
+    if (!acc[type]) {
+        acc[type] = {};
+    }
+    acc[type][id] = rest;
+    return acc;
+}, {});
 node_assert_1.default.deepStrictEqual(solution1(input), expected);
 node_assert_1.default.deepStrictEqual(solution2(input), expected);
+node_assert_1.default.deepStrictEqual(solution3(input), expected);
 console.log("Passed");

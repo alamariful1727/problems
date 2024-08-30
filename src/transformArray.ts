@@ -20,9 +20,11 @@ type Rectangle = Shape & {
 
 type Input = Array<Circle | Rectangle>;
 
-type Output = Partial<
-  Record<string, Record<string, Omit<Circle | Rectangle, 'id' | 'type'>>>
->;
+type Output = {
+  circle?: Record<string, Omit<Circle, 'id' | 'type'>>;
+  rectangle?: Record<string, Omit<Rectangle, 'id' | 'type'>>;
+};
+
 
 const input: Input = [
   {
@@ -61,7 +63,7 @@ const input: Input = [
   },
 ];
 
-const expected = {
+const expected: Output = {
   circle: {
     '1111': { x: 30, y: 50, color: '#FF8200', radius: 14 },
     '2222': { x: 50, y: 250, color: '#80ADCE', radius: 56 },
@@ -75,7 +77,7 @@ const expected = {
 // ? Solution 1
 // ? It's not dynamic
 const solution1 = (input: Input) => {
-  let output: any = {}; // Add type
+  let output: Output = {}; // Add type
 
   input.forEach((v) => {
     if (v.type === 'circle') {
@@ -103,15 +105,28 @@ const solution1 = (input: Input) => {
 // ? Solution 2
 // ? Dynamic type
 const solution2 = (input: Input) => {
-  let output: any = {}; // Add type
+  let output: Output = {}; // Add type
 
   input.forEach(({ type, id, ...rest }) => {
-    output[type] = { ...output[type], [id]: rest };
+    if (!output[type]) {
+      output[type] = {};
+    }
+    output[type]![id] =  rest ;
   });
 
   return output;
 };
 
+const solution3 = (input: Input): Output =>
+  input.reduce<Output>((acc, { type, id, ...rest }) => {
+    if (!acc[type]) {
+      acc[type] = {};
+    }
+    acc[type]![id] = rest;
+    return acc;
+  }, {});
+
 assert.deepStrictEqual(solution1(input), expected);
 assert.deepStrictEqual(solution2(input), expected);
+assert.deepStrictEqual(solution3(input), expected);
 console.log("Passed")
