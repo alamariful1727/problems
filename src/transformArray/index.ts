@@ -1,5 +1,3 @@
-import assert from 'node:assert'
-
 type Shape = {
   id: string;
   x: number;
